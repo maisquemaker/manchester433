@@ -1,6 +1,6 @@
 # Projeto Manchester
 
-Receptor de vários canais baseado em Arduino feito por [Mais Que Maker](https://maisquemaker.com.br).
+Receptor RF433MHz de vários canais baseado em Arduino feito por [Mais Que Maker](https://maisquemaker.com.br).
 
 
 
@@ -14,13 +14,13 @@ Manchester é um projeto de hardware e software utilizando [Arduino](https://www
 - Possui as funções aprender, esquecer canal e apagar a memória.
 - Indicação luminosa das atividades de acionamento, memorização e limpeza da memória interna.
 
-O projeto utiliza apenas a biblioteca EEPROM, realizando a leitura e interpretação do receptor via software incluído no projeto (bit banging).
+O projeto utiliza apenas a biblioteca externa [EEPROM](https://www.arduino.cc/en/Reference/EEPROM) do Arduino, realizando a leitura e interpretação do receptor via software incluído no projeto (bit banging).
 
-O projeto de hardware pode ser acessado no [Thinkercad](https://www.tinkercad.com/things/kPQMFTWsSEO)
+O projeto de hardware pode ser acessado no [Thinkercad](https://www.tinkercad.com/things/kPQMFTWsSEO).
 
 ## Operação
 
-Cada canal pode ser configurado independentemente para funcionar com pulso ou retenção. Quando configurado em modo pulso, o canal permanecerá ligado enquanto o botão do controle estiver sendo acionado. Quando configurado em modo retenção, acionamentos do controle anternarão o estado do canal (ligado/desligado).
+Cada canal pode ser configurado independentemente para funcionar com pulso ou retenção. Quando configurado em modo pulso, o canal permanecerá ligado apenas enquanto o botão do controle estiver sendo acionado. Quando configurado em modo retenção, acionamentos do controle anternarão o estado do canal (ligado/desligado).
 
 Para selecionar o modo pulso, o switch do respectivo canal deverá estar na posição ON. Caso este switch esteja na posição OFF, o canal irá operar no modo retenção.
 
@@ -61,4 +61,4 @@ Para limpar todos os controles de todos os canais:
 
 ## Contribuição
 
-Por favor, contribua para o aperfeiçoamento deste projeto.
+Por favor, sinta-se à vontade para contribua com o aperfeiçoamento deste projeto. Toda ajuda será sempre bem vinda.
