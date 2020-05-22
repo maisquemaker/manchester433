@@ -1,4 +1,4 @@
-# Projeto Manchester
+# Projeto Manchester 433
 
 Receptor RF433MHz de vários canais baseado em Arduino feito por [Mais Que Maker](https://maisquemaker.com.br).
 
@@ -11,7 +11,7 @@ Manchester é um projeto de hardware e software utilizando [Arduino](https://www
 - Cada canal pode ser acionado por vários controles TX de 433MHz.
 - Cada canal pode ser configurado independentemente para operar como pulso ou retenção.
 - Armazena os códigos dos controles na EEPROM, tendo a capacidade de controles limitada pela memória disponível na MCU.
-- Possui as funções aprender, esquecer canal e apagar a memória.
+- Possui as funções aprender, limpeza de canal e limpeza da memória.
 - Indicação luminosa das atividades de acionamento, memorização e limpeza da memória interna.
 
 O projeto utiliza apenas a biblioteca externa [EEPROM](https://www.arduino.cc/en/Reference/EEPROM) do Arduino, realizando a leitura e interpretação do receptor via software incluído no projeto (bit banging).
