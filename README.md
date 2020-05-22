@@ -25,7 +25,7 @@ O sistema foi construído usando a plataforma Arduino, mas aplicações prática
 <center>
   
 Nome | Quantidade | Componente | Descrição
---- | --- | --- | ---
+:---: | :---: | --- | ---
 U1 | 1 | Arduino Uno R3 | Plataforma de prototipação
 SW1 | 1 | DIP Switch x 4 | O número de switches deve corresponder ao número de canais
 S3 | 1 | Botão | Botão de pressão temporário para ser usado na programação
