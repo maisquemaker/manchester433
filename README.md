@@ -18,11 +18,13 @@ O projeto utiliza apenas a biblioteca externa [EEPROM](https://www.arduino.cc/en
 
 O projeto de hardware pode ser acessado no [Thinkercad](https://www.tinkercad.com/things/kPQMFTWsSEO).
 
+É importante destacar que, apesar de o protótipo ter sido montado com quatro canais, é possível reduzir ou ampliar o número de canais, de acordo com a necessidade do projeto, até o limite de entradas/saídas digitais disponíveis na MCU, levando-se em consideração que cada canal utiliza uma porta de entrada para o seu respectivo switch e uma porta de saída que controlará a carga via transistor.
+
 ## Hardware
 
-O sistema foi construído usando a plataforma Arduino, mas aplicações práticas pode utilizar o MCU AVR Atmega328P ou equivalente. A seguir está a lista de componentes:
+O sistema foi construído usando a plataforma Arduino, mas aplicações práticas pode utilizar apenas o MCU AVR Atmega328P ou equivalente, acompanhado, naturalmente, da circuitaria de alimentação e do oscilador, necessários para o funcionamento de microcontrolador. Se apenas um canal for utilizado, recomenda-se o uso de um [ATTINY85](https://www.microchip.com/wwwproducts/en/ATtiny85) ou sua plataforma de desenvolvimento baseada no [Digispark](http://digistump.com/wiki/digispark). 
 
-<center>
+A seguir está a lista de componentes utilizados no protótipo:
   
 Nome | Quantidade | Componente | Descrição
 :---: | :---: | --- | ---
@@ -37,7 +39,15 @@ D6, D7, D8, D9 | 4 | Diodo | Diodo "roda livre" para proteger o circuito de surt
 R6, R7, R8, R9 | 4 | 1 kΩ Resistor | Resistores de base dos transistores
 K1, K2, K3, K4 | 4 | Relé SPDT | Relés para acionamento das cargas
 
-</center>
+## Circuito
+
+A seguinte montagem foi realizada na prototipação do projeto:
+
+![Módulo lógico](https://raw.githubusercontent.com/maisquemaker/manchester433/master/circuits/Manchester%20-%20Modulo%20Logico.png)
+
+Os quatro canais utilizados na prototipação podem controlar cargas através de módulos de relés, de acordo com a montagem abaixo. As saídas dos canais do módulo lógico devem ser conectadas nas bases dos transistores através dos resistores R6 a R9.
+
+![Módulo de transistores](https://raw.githubusercontent.com/maisquemaker/manchester433/master/circuits/Manchester%20-%20Modulo%20Transistor.png)
 
 ## Operação
 
