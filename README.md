@@ -2,7 +2,7 @@
 
 Receptor RF433MHz de vários canais baseado em Arduino feito por [Mais Que Maker](https://maisquemaker.com.br).
 
-
+## Introdução
 
 Manchester é um projeto de hardware e software utilizando [Arduino](https://www.arduino.cc) para construção de um receptor de RF de 433MHz para o controle de "n" canais independentes. Este receptor possui uma ampla gama de usos, podendo ser aplicado em projetos de automação residencial, segurança, automotivos e outros. Algumas características do projeto:
 
@@ -17,6 +17,27 @@ Manchester é um projeto de hardware e software utilizando [Arduino](https://www
 O projeto utiliza apenas a biblioteca externa [EEPROM](https://www.arduino.cc/en/Reference/EEPROM) do Arduino, realizando a leitura e interpretação do receptor via software incluído no projeto (bit banging).
 
 O projeto de hardware pode ser acessado no [Thinkercad](https://www.tinkercad.com/things/kPQMFTWsSEO).
+
+## Hardware
+
+O sistema foi construído usando a plataforma Arduino, mas aplicações práticas pode utilizar o MCU AVR Atmega328P ou equivalente. A seguir está a lista de componentes:
+
+<center>
+  
+Nome | Quantidade | Componente | Descrição
+--- | --- | --- | ---
+U1 | 1 | Arduino Uno R3 | Plataforma de prototipação
+SW1 | 1 | DIP Switch x 4 | O número de switches deve corresponder ao número de canais
+S3 | 1 | Botão | Botão de pressão temporário para ser usado na programação
+R1, R2, R3, R4, R5 | 5 | 220 Ω Resistor | Resistores para leds
+D1 | 1 | Vermelho LED | Indicador de atividades
+D2, D3, D4, D5 | 4 | Verde LED | Indicador de acionamento dos canais
+T1, T2, T3, T4 | 4 | Transistor NPN (BJT) | Transistores para ativação dos relés
+D6, D7, D8, D9 | 4 | Diodo | Diodo "roda livre" para proteger o circuito de surtos causados por indução
+R6, R7, R8, R9 | 4 | 1 kΩ Resistor | Resistores de base dos transistores
+K1, K2, K3, K4 | 4 | Relé SPDT | Relés para acionamento das cargas
+
+</center>
 
 ## Operação
 
