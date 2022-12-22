@@ -14,18 +14,22 @@ Manchester é um projeto de hardware e software utilizando [Arduino](https://www
 - Possui as funções aprender, limpeza de canal e limpeza da memória.
 - Indicação luminosa das atividades de acionamento, memorização e limpeza da memória interna.
 
-O projeto utiliza apenas a biblioteca externa [EEPROM](https://www.arduino.cc/en/Reference/EEPROM) do Arduino, realizando a leitura e interpretação do receptor via software incluído no projeto (bit banging).
+O projeto utiliza apenas a biblioteca externa [EEPROM](https://www.arduino.cc/en/Reference/EEPROM) do Arduino, realizando a leitura e interpretação do receptor via software incluído no projeto ([bit banging](https://en.wikipedia.org/wiki/Bit_banging)).
 
 O projeto de hardware pode ser acessado no [Thinkercad](https://www.tinkercad.com/things/kPQMFTWsSEO).
 
-É importante destacar que, apesar de o protótipo ter sido montado com quatro canais, é possível reduzir ou ampliar o número de canais, de acordo com a necessidade do projeto, até o limite de entradas/saídas digitais disponíveis na MCU, levando-se em consideração que cada canal utiliza uma porta de entrada para o seu respectivo switch e uma porta de saída que controlará a carga via transistor.
+É importante destacar que, apesar de o protótipo ter sido montado com quatro canais, é possível reduzir ou ampliar o número de canais, de acordo com a necessidade, até o limite de entradas/saídas digitais disponíveis na MCU, levando-se em consideração que cada canal utiliza uma porta de entrada para o seu respectivo switch e uma porta de saída que controlará a carga via transistor.
+
+Caso haja a necessidade de mais canais que as portas do MCU são capazes de suportar, podem ser usados multiplicadores de portas, como shift registers ou até mesmo dispositivos i2C, requerendo, naturalmente, a adaptação do projeto
+
+Ma mesma forma, caso seja necessária uma memória maior, um chip EEPROM pode ser inserido, também requerendo adaptações no projeto original.
 
 ## Hardware
 
-O sistema foi construído usando a plataforma Arduino, mas aplicações práticas pode utilizar apenas o MCU AVR Atmega328P ou equivalente, acompanhado, naturalmente, da circuitaria de alimentação e do oscilador, necessários para o funcionamento de microcontrolador. Se apenas um canal for utilizado, recomenda-se o uso de um [ATTINY85](https://www.microchip.com/wwwproducts/en/ATtiny85) ou sua plataforma de desenvolvimento baseada no [Digispark](http://digistump.com/wiki/digispark). 
+O sistema foi construído usando a plataforma Arduino, mas aplicações práticas podem utilizar apenas o MCU AVR Atmega328P ou equivalente, acompanhado, naturalmente, da circuitaria de alimentação e do oscilador, necessários para o funcionamento de microcontrolador. É importante notar que o circuito do oscilador deve ser preciso, uma vez que o sistema depende de eventos temporais para funcionar. Se apenas um canal for utilizado, recomenda-se o uso de um [ATTINY85](https://www.microchip.com/wwwproducts/en/ATtiny85) ou sua plataforma de desenvolvimento baseada no [Digispark](http://digistump.com/wiki/digispark).
 
 A seguir está a lista de componentes utilizados no protótipo:
-  
+
 Nome | Quantidade | Componente | Descrição
 :---: | :---: | --- | ---
 U1 | 1 | Arduino Uno R3 | Plataforma de prototipação
@@ -51,7 +55,9 @@ Os quatro canais utilizados na prototipação podem controlar cargas através de
 
 ## Operação
 
-Cada canal pode ser configurado independentemente para funcionar com pulso ou retenção. Quando configurado em modo pulso, o canal permanecerá ligado apenas enquanto o botão do controle estiver sendo acionado. Quando configurado em modo retenção, acionamentos do controle anternarão o estado do canal (ligado/desligado).
+Cada canal pode ser configurado independentemente para funcionar com pulso ou retenção.
+- Quando configurado em modo pulso, o canal permanecerá ligado apenas enquanto o botão do controle estiver sendo acionado. Este modo é tipicamente utilizado para ligar lâmpadas e outros aparelhos.
+- Quando configurado em modo retenção, acionamentos do controle anternarão o estado do canal (ligado/desligado). Este modo é usado para abrir fechaduras elétricas, tocar campainhas, integrar sistemas de portões eletrônicos entre outras aplicações.
 
 Para selecionar o modo pulso, o switch do respectivo canal deverá estar na posição ON. Caso este switch esteja na posição OFF, o canal irá operar no modo retenção.
 
@@ -61,7 +67,7 @@ Para programar um controle ou outro dispositivo (por exemplo: sensor de abertura
 
 - Desligar os switches de todos os canais e deixar ligado apenas o do canal a ser programado.
 - Segurar o botão do controle a ser programado (ou ativar o dispositivo).
-- Apertar e soltar o botão de programação. A luz irá acender por 3 segundos para indicar que a programação foi bem sucedida
+- Apertar e soltar o botão de programação. A luz irá acender por 3 segundos para indicar que a programação foi bem sucedida.
 - Soltar o botão do controle.
 - Se não houver mais memória para cadastro do controle, o indicador luminoso irá piscar 3 vezes indicando que a operação não pôde ser concluída.
 - Repetir a operação para cada um dos botões nos respectivos canais que eles irão controlar.
@@ -79,7 +85,7 @@ O sistema possui duas maneiras de apagar a memória:
 Para limpar todos os controles de um canal, o procedimento é o seguinte:
 
 - Desliguar os switches de todos os canais, deixando ligado apenas o switch referente ao canal que se deseja apagar.
-- Segurar o botão de programação por 5 segundos. 
+- Segurar o botão de programação por 5 segundos.
 - O indicador luminoso irá piscar 5 vezes indicando que a operação foi bem sucedida.
 
 ### Limpeza da memória
