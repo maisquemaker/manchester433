@@ -53,12 +53,12 @@ void setup()
         Serial.begin(115200);
 
         for (int i = 0, c = 0; i < EEPROM.length(); i++) {
-      
+
             //Limpeza total da memória
             #ifdef __CLEAR
                 EEPROM.write(i,255);
             #endif
-      
+
             Serial.print(String(EEPROM.read(i), HEX));
             Serial.print(" ");
 
@@ -80,7 +80,7 @@ void setup()
         pinMode(pCanais[i], OUTPUT);
 
         //Jumpers de configuração
-        pJmprs[i] = primPinoJmprs + i;            
+        pJmprs[i] = primPinoJmprs + i;
         pinMode(pJmprs[i], INPUT_PULLUP);
 
         //Controle de tempo de cada canal
@@ -105,7 +105,7 @@ void loop()
     atualizaTempos();
 
     //Busca um código no RF
-    qBits = buscaCodigo(3,codigo);
+    qBits = buscaCodigo(pinoRF,codigo);
 
     //Se o código for válido
     if (qBits >=  numBits) {
@@ -136,7 +136,7 @@ void atualizaTempos()
         if (digitalRead(pJmprs[i]) == LOW) {
 
             //Trata apenas os canais de pulso
-            
+
             //Se algum botão estiver pressionado e o canal estiver ligado, estende o tempo de timeout
             if ((ultContr < maxCont) && (tCanais[i] > 0)) {
 
@@ -146,14 +146,14 @@ void atualizaTempos()
             } else {
 
                 if ((millis() - tCanais[i] > tPulso) && (tCanais[i] > 0)) {
-                
+
                     digitalWrite(pCanais[i], LOW);
                     tCanais[i] = 0;
                 }
-            } 
+            }
         }
     }
-    
+
     //Verificação do timeout do último botão apertado
     if (tUltContr && (millis() - tUltContr > tPulso)) {
 
@@ -163,7 +163,7 @@ void atualizaTempos()
         //Apaga o led indicativo de controle reconhecido
         digitalWrite(pinoLed, LOW);
     }
-    
+
     //Verifica o tempo do botão usado para apagar a memória
     if (digitalRead(pinoProg) == LOW) {
 
@@ -171,15 +171,15 @@ void atualizaTempos()
 
             //Registra o momento em que o botão foi pressionado
             tProg = millis();
-        
+
         } else {
-        
+
             //Verifica se já está pressionado tempo suficiente para apagar toda a memória
             if (millis() - tProg > tApagarTudo) {
-          
+
                 apagaMemoria(true);
             }
-        
+
             //Verifica se já está pressionado tempo suficiente para apagar o canal selecionado
             else if (millis() - tProg > tApagarCanal) {
 
@@ -208,7 +208,7 @@ void atualizaCanais()
     if (endereco >= maxCont) {
         return;
     }
-  
+
     //Acende o led indicando que um controle foi reconhecido
     digitalWrite(pinoLed, HIGH);
 
@@ -231,14 +231,14 @@ void atualizaCanais()
 
             //Se o canal for retenção, verifica a necessidade de alternar o status
             else {
-                
+
                 //Verifica se o botão continua pressionado
                 if (ultContr != endereco) {
 
                     tCanais[i] = 1 - tCanais[i];            //Por definição, HIGH = 1 e LOW = 0
                     digitalWrite(pCanais[i], tCanais[i]);
                 }
-                
+
             }
         }
 
@@ -256,7 +256,7 @@ void atualizaCanais()
 //Programa o canal do controle recebido para operar o canal cujo jumper estiver inserido
 void programaCanal()
 {
-    unsigned char numC = 0;             //Auxiliar para verificar se apenas um canal está selecionado   
+    unsigned char numC = 0;             //Auxiliar para verificar se apenas um canal está selecionado
     unsigned int  endereco;             //Endereço obtido para armazenar o controle (0, 1, 2, 3, ...)
     unsigned char canal;                //Canal a ser associado ao controle
 
@@ -271,7 +271,7 @@ void programaCanal()
             canal = i;
         }
     }
-    
+
     //Se não houver canal ou houver mais de um selecionado, não continua
     if (numC != 1) {
         return;
@@ -282,7 +282,7 @@ void programaCanal()
 
     //Se não existir na memória
     if (endereco >= maxCont) {
-      
+
         //Tenta encontrar uma posição vazia na memória
         endereco = posicaoVazia();
 
@@ -291,7 +291,7 @@ void programaCanal()
             avisoLuminoso(MEM_CHEIA);
             return false;
         }
-    
+
         //Armazena o byte inficativo do canal
         EEPROM.write(numBytes * endereco, 1 << canal);
 
@@ -299,7 +299,7 @@ void programaCanal()
         for (int i = 0; i < numBytes - 1; i++) {
             EEPROM.write((numBytes * endereco) + i + 1, codigo[i]);
         }
-  
+
     } else {
 
         //O controle já existe na memória: apenas atualiza os canais que ele ativa
@@ -344,17 +344,17 @@ unsigned int encontraControle()
     if (qBits < numBits) {
         return 65535;
     }
-  
+
     //Verifica todos os controles da memória
     for (unsigned int numCont = 0; numCont < maxCont; numCont++) {
-        
+
         //Busca o primeiro byte do controle armazenado (os canais)
         canais = EEPROM.read(numBytes * numCont);
 
         //Se a posição da memória não estiver vazia (1º byte entre 1 e 254)
-        if (canais != 0 && canais != 255) {  
-            
-            //Agora, compara o código do controle com a memória 
+        if (canais != 0 && canais != 255) {
+
+            //Agora, compara o código do controle com a memória
             iguais = 0;
             for (int i = 0; i < numBytes-1; i++) {
 
@@ -366,7 +366,7 @@ unsigned int encontraControle()
 
             if (iguais == numBytes-1) {
                 return numCont;
-            } 
+            }
         }
     }
 
@@ -383,7 +383,7 @@ unsigned int posicaoVazia()
 
     //Verifica todos os controles da memória
     for (unsigned int numCont = 0; numCont < maxCont; numCont++) {
-        
+
         canais = EEPROM.read(numBytes * numCont);
 
         //Se encontrar uma posição vazia (1º byte = 0 ou 255), retorna este índice
@@ -408,7 +408,7 @@ unsigned char encontraCanais(unsigned int endereco)
     if (endereco >= maxCont) {
         return 0;
     }
-    
+
     //Lê o primeiro byte do canal cujo índice foi passado
     canais = EEPROM.read(numBytes * endereco);
 
@@ -425,11 +425,11 @@ unsigned char encontraCanais(unsigned int endereco)
 
 //Apaga a memória de todos os controles
 //O parâmetro indica se é para apagar TUDO ou apenas um canal
-//Importante notar que no caso de apagamento total, apenas o primeiro byte de cada posição é apagado 
+//Importante notar que no caso de apagamento total, apenas o primeiro byte de cada posição é apagado
 void apagaMemoria(bool tudo)
 {
-    unsigned char   numC = 0;           //Auxiliar para verificar se apenas um canal está selecionado   
-    unsigned char canal;                //Caso se trate de apagar um canal, indica que canal é esse                
+    unsigned char   numC = 0;           //Auxiliar para verificar se apenas um canal está selecionado
+    unsigned char canal;                //Caso se trate de apagar um canal, indica que canal é esse
     unsigned char b;                    //Variável auxiliar para armazenar um byte vindo da EEPROM
 
 
@@ -444,7 +444,7 @@ void apagaMemoria(bool tudo)
                 canal = i;
             }
         }
-        
+
         //Se não houver canal ou houver mais de um selecionado, não continua
         if (numC != 1) {
             return;
@@ -507,7 +507,7 @@ void avisoLuminoso(unsigned char tipo)
             delay(300);
       }
       break;
-    
+
     case APAGA_TUDO:
       for (int i = 0; i < 5; i++) {
             digitalWrite(pinoLed, HIGH);
@@ -515,6 +515,6 @@ void avisoLuminoso(unsigned char tipo)
             digitalWrite(pinoLed, LOW);
             delay(600);
       }
-      break;    
+      break;
   }
 }
